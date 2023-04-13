@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail</title>
+    <style>img {max-width: 320px;}</style>
+</head>
+<body>
+    <p id="out">Loading...</p>
+    <div id="amiibo"></div>
+    <p><a href="amiibos.html">Back to list</a></p>
+
+<script>
+// get the query string
+const queryString = document.location.search;
+// create an object that will allows us to access all the query string parameters
+const params = new URLSearchParams(queryString);
+// get the id parameter from the query string
+const id = params.get("id");     
+
+const status = document.querySelector("p#out");
+const out = document.querySelector("div#amiibo");
+
+const url = `https://www.amiiboapi.com/api/amiibo/?id=${id}`;
+
+fetch (url)
+  .then(response => response.json())
+  .then(data => {
+      //console.log(data);
+      listData(data.amiibo);
+  })
+  .catch(error => status.innerHTML = "Something's wrong!");
+
+function listData(amiibo) {
+    console.log(amiibo);
+    document.title = amiibo.name; 
+    let newDiv = `
+    <h1>${amiibo.character}</h1>
+    <img src="${amiibo.image}" alt="${amiibo.character}">
+    <p>Name: <strong>${amiibo.name}</strong></p>
+    <p>Amiibo Series: ${amiibo.amiiboSeries}</p>
+    <p>Game Series: ${amiibo.gameSeries}</p>
+    <p>Released (in Japan): ${amiibo.release.jp}
+    <p>Type: ${amiibo.type}</p>
+    `;
+    out.innerHTML = newDiv;
+    status.innerHTML = "";
+}
+</script>
+</body>
+</html>

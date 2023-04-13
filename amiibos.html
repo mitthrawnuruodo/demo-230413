@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amiibos</title>
+</head>
+<body>
+    <h1>All amiibos</h1>
+    <ul id="amiiboList">Loading...</ul>
+    
+<script>
+const url = "https://www.amiiboapi.com/api/amiibo/";
+const out = document.querySelector("ul#amiiboList");
+
+fetch (url)
+  .then(response => response.json())
+  .then(data => listData(data.amiibo))
+  .catch(error => out.innerHTML = "Something's wrong!");
+
+function listData(list){
+    //console.log(list.length);
+    let output = "";
+    for (let item of list) {
+        console.log(item);
+        output += `
+        <li>
+            <a href="amiibo-detail.html?id=${item.head + item.tail}">${item.name}</a>
+        </li>`;
+    }
+    if (output) {
+        out.innerHTML = output;
+    }
+}
+</script>
+</body>
+</html>
