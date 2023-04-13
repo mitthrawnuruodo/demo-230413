@@ -11,3 +11,21 @@ const bigCats = {
 };
 
 console.log(bigCats);
+
+listCats = (list) => {
+    const myUL = document.querySelector("#cats");
+    myUL.innerHTML = "";
+    for (let cat of list){
+        myUL.innerHTML += `<li>${cat.name} (${cat.latin})</li>`;
+    }
+}
+
+listCats(bigCats["felidae"]);
+
+const pantheraBtn = document.querySelector("button#panthera");
+pantheraBtn.addEventListener('click', 
+    () => listCats(bigCats["felidae"].filter(cat => cat.genus === "Panthera"))
+);
+
+const allBtn = document.querySelector("button#all");
+allBtn.addEventListener('click', () => listCats(bigCats["felidae"]));
