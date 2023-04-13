@@ -50,3 +50,23 @@ var myBooks = [
 ];
 
 Book.printList(myBooks);
+
+const inputField = document.getElementById("q");
+inputField.addEventListener("keyup", filterBooks);
+
+function filterBooks () {
+    const filterQuery = inputField.value.toLowerCase();
+    //console.log(filterQuery);
+    const filtered = myBooks.filter((book)=>{
+        //console.log(book.title, book.author(), book.published);
+        const t = book.title.toLowerCase();
+        const a = book.author().toLowerCase();
+        const c = book.published.toString();
+
+        if (t.indexOf(filterQuery) > -1) return true;
+        if (a.indexOf(filterQuery) > -1) return true;
+        if (c.indexOf(filterQuery) > -1) return true;
+        return false;
+    });
+    Book.printList(filtered);
+}
