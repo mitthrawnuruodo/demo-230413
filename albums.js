@@ -16,3 +16,67 @@ const bestAlbumsOfAllTime = `
     ]
 }
 `;
+
+const albumArray = JSON.parse(bestAlbumsOfAllTime).albums;
+console.log(albumArray);
+
+const ouputElement = document.querySelector("ol#albums");
+listAlbums(albumArray);
+// ouputElement.innerHTML = "";
+// for (const album of albumArray) {
+//     ouputElement.innerHTML += `<li>${album.title}, ${album.artist}, ${album.year}</li>`;
+// }
+
+const btnA = document.querySelector("button#sortByArtist");
+btnA.addEventListener('click', () => {
+    //console.log("Button A is clicked");
+    albumArray.sort(sortMe);
+    listAlbums(albumArray);
+});
+
+const btnB = document.querySelector("button#sortByYearAsc");
+btnB.addEventListener('click', () => {
+    //console.log("Button B is clicked");
+    albumArray.sort((a, b) => a.year - b.year);
+    listAlbums(albumArray);
+});
+
+const btnC = document.querySelector("button#sortByYearDesc");
+btnC.addEventListener('click', () => {
+    //console.log("Button C is clicked");
+    albumArray.sort((a, b) => b.year - a.year);
+    listAlbums(albumArray);
+});
+
+const btnD = document.querySelector("button#originalOrder");
+btnD.addEventListener('click', () => {
+    console.log("Button D is clicked");
+    const orgAlbumArray = JSON.parse(bestAlbumsOfAllTime).albums;
+    // Need to re-parse original (alternatively slice the array in the other functions)
+    listAlbums(orgAlbumArray);
+});
+
+sortMe = (a, b) => {
+    var nameA = a.artist.toUpperCase(); // ignore upper and lowercase
+    var nameB = b.artist.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+}
+
+function listAlbums (list) {
+    ouputElement.innerHTML = "";
+    for (const album of list) {
+        ouputElement.innerHTML += `
+        <li>
+            <img src="${album.cover}" alt="${album.title} by ${album.artist}">
+            <h2>${album.title}</h2>
+            <p><strong>${album.artist}</strong></p>
+            <p>(${album.year})</p>
+        </li>`;
+    }
+}
